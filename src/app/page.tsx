@@ -19,6 +19,9 @@ interface ResultData {
   batch: string;
   passing_year: string;
   result: string;
+}
+
+interface ErrorState{
   message: string
 }
 
@@ -35,7 +38,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
 
   // State to handle errors
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorState | null>(null);
 
   // Handle form input change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
