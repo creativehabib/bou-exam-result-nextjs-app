@@ -89,7 +89,7 @@ export default function Home() {
 
   const handleDownload = async () => {
     try {
-      const downloadUrl = `https://result.bou.ac.bd/api/transcript/${result.student_id}/download`;
+      const downloadUrl = `https://result.bou.ac.bd/api/transcript/${result?.student_id}/download`;
       window.open(downloadUrl, '_blank');
     } catch (error: unknown) {
       if (error instanceof Error) {
