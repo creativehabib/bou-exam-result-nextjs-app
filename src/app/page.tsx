@@ -118,7 +118,6 @@ export default function Home() {
                 <span data-v-2fd469dd="">Download</span>
                 </button>
             </div>
-            <pre>{JSON.stringify(result, null, 2)}</pre>
             {/* Show Data */}
             <div data-v-2fd469dd="" className="shadow rounded-lg text-gray-600">
               <div data-v-2fd469dd="" className="p-4">
@@ -128,39 +127,39 @@ export default function Home() {
                   <dl data-v-2fd469dd="" className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Program:</dt>
-                        <dd data-v-2fd469dd="" className="">Higher Secondary Certificate</dd>
+                        <dd data-v-2fd469dd="" className="">{result.program_name}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Study  Center:</dt>
-                        <dd data-v-2fd469dd="" className="">Nawab Habibulla Model School &amp; College, Uttara, Dhaka</dd>
+                        <dd data-v-2fd469dd="" className="">{result.study_center_name}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Student  I D:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.id}</dd>
+                        <dd data-v-2fd469dd="" className="">{result.student_id}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Student  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">BIJOY HOSSAIN</dd>
+                        <dd data-v-2fd469dd="" className="">{result.name_en}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Father  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">MD. SHA ALAM</dd>
+                        <dd data-v-2fd469dd="" className="">{result.fathers_name_en}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Mother  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">SHILA</dd>
+                        <dd data-v-2fd469dd="" className="">{result.mothers_name_en}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Batch:</dt>
-                        <dd data-v-2fd469dd="" className="">20</dd>
+                        <dd data-v-2fd469dd="" className="">{result.batch}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">Passing  Year:</dt>
-                        <dd data-v-2fd469dd="" className="">2024</dd>
+                        <dd data-v-2fd469dd="" className="">{result.passing_year}</dd>
                     </div>
                     <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
                         <dt data-v-2fd469dd="" className="font-semibold">G P A:</dt>
-                        <dd data-v-2fd469dd="" className="">3.14</dd>
+                        <dd data-v-2fd469dd="" className="">{result.result}</dd>
                     </div>
                   </dl>
                   )}
