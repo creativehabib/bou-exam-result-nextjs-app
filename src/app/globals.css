@@ -19,3 +19,27 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+
+.animate-marquee-horizontal[data-v-2fd469dd] {
+  animation: marquee-2fd469dd 30s linear infinite;
+  display: inline-block;
+  white-space: nowrap
+}
+
+@keyframes marquee-2fd469dd {
+  0% {
+      transform: translate(100%)
+  }
+
+  to {
+      transform: translate(-100%)
+  }
+}
+
+@media print {
+  .print-button[data-v-2fd469dd],footer[data-v-2fd469dd],form[data-v-2fd469dd],header[data-v-2fd469dd] {
+      display: none!important
+  }
+}
