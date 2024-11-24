@@ -21,6 +21,7 @@ interface ResultData {
   batch: string;
   passing_year: string;
   result: string;
+  academic_year: number;
 }
 
 interface ErrorState{
@@ -247,7 +248,7 @@ export default function Home() {
                     </div>
                     <div className="flex justify-between sm:col-span-1">
                       <dt className="font-semibold">Batch:</dt>
-                      <dd>{result.batch}</dd>
+                      <dd>{result.academic_year}</dd>
                     </div>
                     <div className="flex justify-between sm:col-span-1">
                       <dt className="font-semibold">Passing Year:</dt>
