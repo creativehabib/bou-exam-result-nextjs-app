@@ -62,7 +62,7 @@ export default function Home() {
       });
 
       const data = await response.json(); // Parse the response JSON
-
+      alert(data.message);
       if (response.ok) {
         setResult(data.data);
         setFormData({ student_id: '' });
