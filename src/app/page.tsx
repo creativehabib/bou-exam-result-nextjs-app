@@ -191,7 +191,6 @@ export default function Home() {
                   </button>
                 </div>
               </form>
-              {error && <p className="text-red-500">Error: {error}</p>}
 
               {/* Show Data */}
               <div className="shadow rounded-lg text-gray-600">
