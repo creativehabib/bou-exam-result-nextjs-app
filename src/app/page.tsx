@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from "next/link"
 import { justlogo, logo } from '../../public/img';
+import { toast } from "react-toastify"
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 // Define types for the form data
@@ -62,7 +63,12 @@ export default function Home() {
       });
 
       const data = await response.json(); // Parse the response JSON
-      alert(data.message);
+      if(data.success == false){
+        toast.error(data.message)
+      }else if(data.success == true ){
+        toast.success(data.message)
+      }
+      
       if (response.ok) {
         setResult(data.data);
         setFormData({ student_id: '' });
@@ -78,6 +84,19 @@ export default function Home() {
       }
     } finally {
       setLoading(false); // Reset the loading state
+    }
+  };
+
+  const handleDownload = async () => {
+    try {
+      const downloadUrl = `https://result.bou.ac.bd/api/transcript/${result.student_id}/download`;
+      window.open(downloadUrl, '_blank');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError({ message: error.message });
+      } else {
+        setError({ message: 'Failed to initiate download.' });
+      }
     }
   };
   
@@ -189,16 +208,16 @@ export default function Home() {
             {error && <p className="text-red-500">{error.message}</p>}
           </form>
           {/* Show Data */}
-          <div className="w-full max-w-5xl space-y-6 mx-auto">
           {result && (
+          <div className="w-full max-w-5xl space-y-6 mx-auto">
             <div>
               <div className="flex justify-end mb-4">
-                <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
+                <button onClick={handleDownload} className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
                   <span>Download</span>
                 </button>
               </div>
-              <div className="bg-white shadow rounded-lg text-gray-600">
+              <div className="bg-white shadow border rounded-lg text-gray-600">
                 <div className="p-4">
                   <h3 className="text-lg font-semibold mb-2">Student Information</h3>
                   <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
@@ -242,8 +261,16 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            )}
+
+          <div className="bg-white shadow border rounded-lg mt-6">
+            <div className="p-4">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800">Note</h3>
+              <p className="text-sm text-gray-600"> (-)- Waiver, AB- Absent, PR- Problem Related to OMR Sheet fill-up, RP- Expelled in the respective course, WH- Withheld, IC- Incomplete, NA- Not Applicable, X- No Grade Received </p>
+            </div>
+          </div>
         </div>
+        )}
+        
       </main>
       <footer className="border-t border-slate-200 bg-white/75 backdrop-blur-sm mt-8">
           <div className="container mx-auto px-4">
