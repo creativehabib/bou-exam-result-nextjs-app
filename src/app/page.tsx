@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image';
+import Link from "next/link"
 import { justlogo, logo } from '../../public/img';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
@@ -33,11 +34,7 @@ export default function Home() {
 
   // State to store the API response data
   const [result, setResult] = useState<ResultData | null>(null);
-
-  // State to manage loading state
   const [loading, setLoading] = useState<boolean>(false);
-
-  // State to handle errors
   const [error, setError] = useState<ErrorState | null>(null);
 
   // Handle form input change
@@ -67,19 +64,14 @@ export default function Home() {
       const data = await response.json(); // Parse the response JSON
 
       if (response.ok) {
-        // If the request was successful, set the result data
         setResult(data.data);
-        // Clear the input field
         setFormData({ student_id: '' });
         
       } else {
-        // If the response was not okay, set the error
         setError(data || 'Something went wrong');
       }
     } catch (error: unknown) {
-      // Handle network errors or other errors
       if (error instanceof Error) {
-        // If the error is a known instance of Error, handle it
         setError({ message: error.message });
       } else {
         setError({ message: 'An unexpected error occurred' });
@@ -94,13 +86,15 @@ export default function Home() {
       <header className="sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white/75 backdrop-blur-sm">
           <nav className="container mx-auto px-4">
             <div className="flex h-16 items-center justify-center">
-              <div className="flex items-center">
-                <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2" />
-                <Image src={logo} alt="logo" width={350} height={50} />
-              </div>
+              <Link href="/">
+                <div className="flex items-center">
+                  <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2" />
+                  <Image src={logo} alt="logo" width={350} height={50} />
+                </div>
+              </Link>
             </div>
           </nav>
-        </header>
+      </header>
 
       <main className="flex-grow container mx-auto py-2 px-4 sm:px-6 lg:px-8">
         <div className="mb-8 overflow-hidden" data-v-2fd469dd="">
@@ -168,104 +162,103 @@ export default function Home() {
               </div>
             </div>
           </div>
-</div>
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-gray-800">Search Your Result</h2>
-            <p className="text-sm text-gray-600">Enter your Student ID to view your results</p>
-
-            {/* Form handle */}
-           </div>
-              <form className="max-w-md mx-auto mb-8" onSubmit={handleSubmit}>
-                <div className="relative ">
-                  <input
-                    type="text"
-                    placeholder="Enter student ID without (-) hyphen"
-                    className="w-full py-2 px-4 border border-gray-300 dark:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent rounded-md"
-                    id="student_id"
-                    name="student_id"
-                    value={formData.student_id}
-                    onChange={handleChange}
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-0 top-0 bottom-0 px-4 bg-gray-700 hover:bg-gray-800 text-white rounded-r-md"
-                  >
-                    {loading ? 'Loading...' : 'Search'}
-                  </button>
-                </div>
-                {error && <p className="text-red-500">{error.message}</p>}
-              </form>
-            
-
-              {/* Show Data */}
-              <div className="w-full max-w-4xl space-y-6 mx-auto">
-              {result && (
-                <div>
-                  <div className="flex justify-end mb-4">
-                    <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
-                      <span>Download</span>
-                    </button>
-                  </div>
-                  <div className="bg-white shadow rounded-lg text-gray-600">
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold mb-2">Student Information</h3>
-                      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Program:</dt>
-                          <dd>{result.program_name}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Study Center:</dt>
-                          <dd>{result.study_center_name}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Student ID:</dt>
-                          <dd>{result.student_id}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Student Name:</dt>
-                          <dd>{result.name_en}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Fathers Name:</dt>
-                          <dd>{result.fathers_name_en}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Mothers Name:</dt>
-                          <dd>{result.mothers_name_en}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Batch:</dt>
-                          <dd>{result.batch}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">Passing Year:</dt>
-                          <dd>{result.passing_year}</dd>
-                        </div>
-                        <div className="flex justify-between sm:col-span-1">
-                          <dt className="font-semibold">GPA:</dt>
-                          <dd>{result.result}</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-                )}
+        </div>
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-800">Search Your Result</h2>
+          <p className="text-sm text-gray-600">Enter your Student ID to view your results</p>
+        </div>
+          {/* Form handle */}
+          <form className="max-w-md mx-auto mb-8" onSubmit={handleSubmit}>
+            <div className="relative ">
+              <input
+                type="text"
+                placeholder="Enter student ID without (-) hyphen"
+                className="w-full py-2 px-4 border border-gray-300 dark:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent rounded-md"
+                id="student_id"
+                name="student_id"
+                value={formData.student_id}
+                onChange={handleChange}
+              />
+              <button
+                type="submit"
+                className="absolute right-0 top-0 bottom-0 px-4 bg-gray-700 hover:bg-gray-800 text-white rounded-r-md"
+              >
+                {loading ? 'Loading...' : 'Search'}
+              </button>
+            </div>
+            {error && <p className="text-red-500">{error.message}</p>}
+          </form>
+          {/* Show Data */}
+          <div className="w-full max-w-5xl space-y-6 mx-auto">
+          {result && (
+            <div>
+              <div className="flex justify-end mb-4">
+                <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                  <span>Download</span>
+                </button>
               </div>
+              <div className="bg-white shadow rounded-lg text-gray-600">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2">Student Information</h3>
+                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Program:</dt>
+                      <dd>{result.program_name}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Study Center:</dt>
+                      <dd>{result.study_center_name}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Student ID:</dt>
+                      <dd>{result.student_id}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Student Name:</dt>
+                      <dd>{result.name_en}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Fathers Name:</dt>
+                      <dd>{result.fathers_name_en}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Mothers Name:</dt>
+                      <dd>{result.mothers_name_en}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Batch:</dt>
+                      <dd>{result.batch}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">Passing Year:</dt>
+                      <dd>{result.passing_year}</dd>
+                    </div>
+                    <div className="flex justify-between sm:col-span-1">
+                      <dt className="font-semibold">GPA:</dt>
+                      <dd>{result.result}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            )}
+        </div>
       </main>
       <footer className="border-t border-slate-200 bg-white/75 backdrop-blur-sm mt-8">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between py-4">
               <p className="text-sm text-slate-600">© Bangladesh Open University.</p>
-            <div className="flex items-center space-x-4">
-              <p className="text-sm text-slate-600"> Development &amp; maintenance by: 
-                <a className="text-sm text-slate-600 hover:text-blue-600" href="https://facebook.com/creativehabibs" target="_blank" title="Habibur Rahaman"> Habibur Rahaman. </a>
-              </p>
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-slate-600"> Development &amp; maintenance by: 
+                  <a className="text-sm text-slate-600 hover:text-blue-600" href="https://facebook.com/creativehabibs" target="_blank" title="Habibur Rahaman"> Habibur Rahaman. </a>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
       </footer>
+
+
     </div>
   );
 }
