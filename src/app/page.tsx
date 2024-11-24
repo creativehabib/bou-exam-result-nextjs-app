@@ -19,6 +19,7 @@ interface ResultData {
   batch: string;
   passing_year: string;
   result: string;
+  message: string
 }
 
 export default function Home() {
@@ -69,9 +70,14 @@ export default function Home() {
         // If the response was not okay, set the error
         setError(data.message || 'Something went wrong');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Handle network errors or other errors
-      setError(error.message || 'An error occurred');
+      if (error instanceof Error) {
+        // If the error is a known instance of Error, handle it
+        setError({ message: error.message });
+      } else {
+        setError({ message: 'An unexpected error occurred' });
+      }
     } finally {
       setLoading(false); // Reset the loading state
     }
@@ -207,11 +213,11 @@ export default function Home() {
                         <dd>{result.name_en}</dd>
                       </div>
                       <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Father's Name:</dt>
+                        <dt className="font-semibold">Fathers Name:</dt>
                         <dd>{result.fathers_name_en}</dd>
                       </div>
                       <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Mother's Name:</dt>
+                        <dt className="font-semibold">Mothers Name:</dt>
                         <dd>{result.mothers_name_en}</dd>
                       </div>
                       <div className="flex justify-between sm:col-span-1">
