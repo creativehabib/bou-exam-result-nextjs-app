@@ -1,19 +1,43 @@
-"use client"
-import Image from "next/image";
-import { justlogo, logo } from "../../public/img";
-import { useState } from 'react';
+'use client'
+import Image from 'next/image';
+import { justlogo, logo } from '../../public/img';
+import { useState, ChangeEvent, FormEvent } from 'react';
 
+// Define types for the form data
+interface FormData {
+  student_id: string;
+}
 
+// Define types for the API response data
+interface ResultData {
+  program_name: string;
+  study_center_name: string;
+  student_id: string;
+  name_en: string;
+  fathers_name_en: string;
+  mothers_name_en: string;
+  batch: string;
+  passing_year: string;
+  result: string;
+}
 
 export default function Home() {
-  const [formData, setFormData] = useState({
+  // State for form data
+  const [formData, setFormData] = useState<FormData>({
     student_id: '',
   });
-  const [result, setResult] = useState(null);  // State to store the API response
-  const [loading, setLoading] = useState(false); // State to manage loading state
-  const [error, setError] = useState(null);  // State to handle errors
 
-  const handleChange = (e) => {
+  // State to store the API response data
+  const [result, setResult] = useState<ResultData | null>(null);
+
+  // State to manage loading state
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // State to handle errors
+  const [error, setError] = useState<string | null>(null);
+
+  // Handle form input change
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -21,7 +45,8 @@ export default function Home() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -44,7 +69,7 @@ export default function Home() {
         // If the response was not okay, set the error
         setError(data.message || 'Something went wrong');
       }
-    } catch (error) {
+    } catch (error: any) {
       // Handle network errors or other errors
       setError(error.message || 'An error occurred');
     } finally {
@@ -58,118 +83,156 @@ export default function Home() {
         <nav>
           <div className="flex h-16 items-center justify-center">
             <div className="flex items-center">
-            <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2"/>
-            <Image src={logo} alt="logo" width={350} height={50}/>
+              <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2" />
+              <Image src={logo} alt="logo" width={350} height={50} />
             </div>
           </div>
         </nav>
       </header>
+
       <main className="max-w-7xl mx-auto h-screen justify-center dark:bg-white/75">
-      
-
-
-      <div className="mb-8 overflow-hidden" data-v-2fd469dd="">
-        <div className="bg-cyan-50 border-cyan-200 rounded-lg shadow-sm" data-v-2fd469dd="">
-          <div className="py-2 px-4" data-v-2fd469dd=""><div className="flex items-center" data-v-2fd469dd="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bell-icon h-5 w-5 text-cyan-500 mr-2 flex-shrink-0" data-v-2fd469dd=""><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
-            <div className="overflow-hidden flex-grow" data-v-2fd469dd="">
-              <div className="animate-marquee-horizontal whitespace-nowrap" data-v-2fd469dd="">
-                <span className="inline-flex items-center mx-4 text-gray-700" data-v-2fd469dd="">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-megaphone-icon h-4 w-4 mr-1" data-v-2fd469dd=""><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-                  </svg> BOU exam result site is up!!!</span>
-                  <span className="inline-flex items-center mx-4 text-gray-700" data-v-2fd469dd="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-megaphone-icon h-4 w-4 mr-1" data-v-2fd469dd=""><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-                    </svg> HSC exam-2024 result has been published!</span>
-                    </div>
+        <div className="mb-8 overflow-hidden" data-v-2fd469dd="">
+          <div className="bg-cyan-50 border-cyan-200 rounded-lg shadow-sm" data-v-2fd469dd="">
+            <div className="py-2 px-4" data-v-2fd469dd="">
+              <div className="flex items-center" data-v-2fd469dd="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-bell-icon h-5 w-5 text-cyan-500 mr-2 flex-shrink-0"
+                  data-v-2fd469dd=""
+                >
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+                <div className="overflow-hidden flex-grow" data-v-2fd469dd="">
+                  <div className="animate-marquee-horizontal whitespace-nowrap" data-v-2fd469dd="">
+                    <span className="inline-flex items-center mx-4 text-gray-700" data-v-2fd469dd="">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-megaphone-icon h-4 w-4 mr-1"
+                        data-v-2fd469dd=""
+                      >
+                        <path d="m3 11 18-5v12L3 14v-3z"></path>
+                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+                      </svg>
+                      BOU exam result site is up!!!
+                    </span>
+                    <span className="inline-flex items-center mx-4 text-gray-700" data-v-2fd469dd="">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-megaphone-icon h-4 w-4 mr-1"
+                        data-v-2fd469dd=""
+                      >
+                        <path d="m3 11 18-5v12L3 14v-3z"></path>
+                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+                      </svg>
+                      HSC exam-2024 result has been published!
+                    </span>
                   </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
+          <div className="mt-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-800">Search Your Result</h2>
+            <p className="text-sm text-gray-600">Enter your Student ID to view your results</p>
 
-        <div className="mt-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Search Your Result</h2>
-          <p className="text-sm text-gray-600">Enter your Student ID to view your results</p>
+            {/* Form handle */}
+            <div>
+              <form className="max-w-md mx-auto mb-8" onSubmit={handleSubmit}>
+                <div className="mt-4 relative ">
+                  <input
+                    type="text"
+                    placeholder="Enter student ID without (-) hyphen"
+                    className="w-full py-2 px-4 border border-gray-300 dark:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent rounded-md"
+                    id="student_id"
+                    name="student_id"
+                    value={formData.student_id}
+                    onChange={handleChange}
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-0 top-0 bottom-0 px-4 bg-gray-700 hover:bg-gray-800 text-white rounded-r-md"
+                  >
+                    {loading ? 'Loading...' : 'Search'}
+                  </button>
+                </div>
+              </form>
+              {error && <p className="text-red-500">Error: {error}</p>}
 
-          {/* Form handle */}
-          <div>
-            <form className="max-w-md mx-auto mb-8" onSubmit={handleSubmit}>
-              <div className="mt-4 relative ">
-                <input 
-                  type="text" 
-                  placeholder="Enter student ID without (-) hyphen"
-                  className="w-full py-2 px-4 border border-gray-300 dark:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent rounded-md"
-                  id="student_id"
-                  name="student_id"
-                  value={formData.student_id}
-                  onChange={handleChange}
-                />
-                <button type="submit" className="absolute right-0 top-0 bottom-0 px-4 bg-gray-700 hover:bg-gray-800 text-white rounded-r-md">
-                {loading ? 'Loading...' : 'Search'}
-                </button>
-              </div>
-            </form>
-            {error && <p className="text-red-500">Error: {error}</p>}
-            {/* Download Button */}
-            <div data-v-2fd469dd="" className="flex justify-end mb-4">
-              <button data-v-2fd469dd="" className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
-                <svg data-v-2fd469dd="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
-                <span data-v-2fd469dd="">Download</span>
-                </button>
-            </div>
-            {/* Show Data */}
-            <div data-v-2fd469dd="" className="shadow rounded-lg text-gray-600">
-              <div data-v-2fd469dd="" className="p-4">
-                  <h3 data-v-2fd469dd="" className="text-lg font-semibold mb-2">Student Information</h3>
+              {/* Show Data */}
+              <div className="shadow rounded-lg text-gray-600">
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2">Student Information</h3>
                   {result && (
-                    
-                  <dl data-v-2fd469dd="" className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Program:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.program_name}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Study  Center:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.study_center_name}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Student  I D:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.student_id}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Student  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.name_en}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Father  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.fathers_name_en}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Mother  Name:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.mothers_name_en}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Batch:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.batch}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">Passing  Year:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.passing_year}</dd>
-                    </div>
-                    <div data-v-2fd469dd="" className="flex justify-between sm:col-span-1">
-                        <dt data-v-2fd469dd="" className="font-semibold">G P A:</dt>
-                        <dd data-v-2fd469dd="" className="">{result.result}</dd>
-                    </div>
-                  </dl>
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Program:</dt>
+                        <dd>{result.program_name}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Study Center:</dt>
+                        <dd>{result.study_center_name}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Student ID:</dt>
+                        <dd>{result.student_id}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Student Name:</dt>
+                        <dd>{result.name_en}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Father's Name:</dt>
+                        <dd>{result.fathers_name_en}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Mother's Name:</dt>
+                        <dd>{result.mothers_name_en}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Batch:</dt>
+                        <dd>{result.batch}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">Passing Year:</dt>
+                        <dd>{result.passing_year}</dd>
+                      </div>
+                      <div className="flex justify-between sm:col-span-1">
+                        <dt className="font-semibold">GPA:</dt>
+                        <dd>{result.result}</dd>
+                      </div>
+                    </dl>
                   )}
+                </div>
               </div>
             </div>
-
-
           </div>
         </div>
-       
       </main>
     </div>
   );
