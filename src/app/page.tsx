@@ -69,9 +69,12 @@ export default function Home() {
       if (response.ok) {
         // If the request was successful, set the result data
         setResult(data.data);
+        // Clear the input field
+        setFormData({ student_id: '' });
+        
       } else {
         // If the response was not okay, set the error
-        setError(data.message || 'Something went wrong');
+        setError(data || 'Something went wrong');
       }
     } catch (error: unknown) {
       // Handle network errors or other errors
@@ -85,21 +88,21 @@ export default function Home() {
       setLoading(false); // Reset the loading state
     }
   };
-
+  
   return (
-    <div className="dark:bg-white">
+    <div className="min-h-screen flex flex-col bg-white">
       <header className="sticky top-0 z-40 w-full border-b border-b-slate-200 bg-white/75 backdrop-blur-sm">
-        <nav>
-          <div className="flex h-16 items-center justify-center">
-            <div className="flex items-center">
-              <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2" />
-              <Image src={logo} alt="logo" width={350} height={50} />
+          <nav className="container mx-auto px-4">
+            <div className="flex h-16 items-center justify-center">
+              <div className="flex items-center">
+                <Image src={justlogo} width={55} height={55} alt="logo" className="mt-2 mr-2" />
+                <Image src={logo} alt="logo" width={350} height={50} />
+              </div>
             </div>
-          </div>
-        </nav>
-      </header>
+          </nav>
+        </header>
 
-      <main className="max-w-7xl mx-auto h-screen justify-center dark:bg-white/75">
+      <main className="flex-grow container mx-auto py-2 px-4 sm:px-6 lg:px-8">
         <div className="mb-8 overflow-hidden" data-v-2fd469dd="">
           <div className="bg-cyan-50 border-cyan-200 rounded-lg shadow-sm" data-v-2fd469dd="">
             <div className="py-2 px-4" data-v-2fd469dd="">
@@ -165,15 +168,15 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <div className="mt-8 text-center">
+</div>
+          <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-gray-800">Search Your Result</h2>
             <p className="text-sm text-gray-600">Enter your Student ID to view your results</p>
 
             {/* Form handle */}
-            <div>
+           </div>
               <form className="max-w-md mx-auto mb-8" onSubmit={handleSubmit}>
-                <div className="mt-4 relative ">
+                <div className="relative ">
                   <input
                     type="text"
                     placeholder="Enter student ID without (-) hyphen"
@@ -190,59 +193,79 @@ export default function Home() {
                     {loading ? 'Loading...' : 'Search'}
                   </button>
                 </div>
+                {error && <p className="text-red-500">{error.message}</p>}
               </form>
-              {error && <p className="text-red-500">Error: {error.message}</p>}
+            
 
               {/* Show Data */}
-              <div className="shadow rounded-lg text-gray-600">
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold mb-2">Student Information</h3>
-                  {result && (
-                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Program:</dt>
-                        <dd>{result.program_name}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Study Center:</dt>
-                        <dd>{result.study_center_name}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Student ID:</dt>
-                        <dd>{result.student_id}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Student Name:</dt>
-                        <dd>{result.name_en}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Fathers Name:</dt>
-                        <dd>{result.fathers_name_en}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Mothers Name:</dt>
-                        <dd>{result.mothers_name_en}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Batch:</dt>
-                        <dd>{result.batch}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">Passing Year:</dt>
-                        <dd>{result.passing_year}</dd>
-                      </div>
-                      <div className="flex justify-between sm:col-span-1">
-                        <dt className="font-semibold">GPA:</dt>
-                        <dd>{result.result}</dd>
-                      </div>
-                    </dl>
-                  )}
+              <div className="w-full max-w-4xl space-y-6 mx-auto">
+              {result && (
+                <div>
+                  <div className="flex justify-end mb-4">
+                    <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-md flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                      <span>Download</span>
+                    </button>
+                  </div>
+                  <div className="bg-white shadow rounded-lg text-gray-600">
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold mb-2">Student Information</h3>
+                      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Program:</dt>
+                          <dd>{result.program_name}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Study Center:</dt>
+                          <dd>{result.study_center_name}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Student ID:</dt>
+                          <dd>{result.student_id}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Student Name:</dt>
+                          <dd>{result.name_en}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Fathers Name:</dt>
+                          <dd>{result.fathers_name_en}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Mothers Name:</dt>
+                          <dd>{result.mothers_name_en}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Batch:</dt>
+                          <dd>{result.batch}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">Passing Year:</dt>
+                          <dd>{result.passing_year}</dd>
+                        </div>
+                        <div className="flex justify-between sm:col-span-1">
+                          <dt className="font-semibold">GPA:</dt>
+                          <dd>{result.result}</dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
+                )}
               </div>
+      </main>
+      <footer className="border-t border-slate-200 bg-white/75 backdrop-blur-sm mt-8">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between py-4">
+              <p className="text-sm text-slate-600">© Bangladesh Open University.</p>
+            <div className="flex items-center space-x-4">
+              <p className="text-sm text-slate-600"> Development &amp; maintenance by: 
+                <a className="text-sm text-slate-600 hover:text-blue-600" href="https://facebook.com/creativehabibs" target="_blank" title="Habibur Rahaman"> Habibur Rahaman. </a>
+              </p>
             </div>
           </div>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }
